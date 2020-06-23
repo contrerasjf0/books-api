@@ -1,11 +1,6 @@
 <?php
 
-// Defining allowed type resources
-$allowedResourceTypes = [
-  'books',
-  'authors',
-  'genres'
-];
+require_once('./data.php');
 
 
 // Validating the availability of the resource
@@ -16,60 +11,35 @@ if(! in_array($resourceType, $allowedResourceTypes)){
   die;
 }
 
-// Defining resources: book
-$books = [
-  1 => [
-      'title' => 'A Journey to the Center of the Earth',
-      'author' => [
-          'authorId' => 145,
-          'authorName' => 'Jules Verne'
-      ],
-      'genre' => [
-          'genreId' => 1,
-          'genreName' => 'Science Fiction'
-      ],
-  ],
-  2 => [
-      'title' => 'From the Earth to the Moon',
-      'author' => [
-          'authorId' => 145,
-          'authorName' => 'Jules Verne'
-      ],
-      'genre' => [
-          'genreId' => 1,
-          'genreName' => 'Science Fiction'
-      ],
-  ],
-  3 => [
-      'title' => 'Twenty Thousand Leagues Under the Sea',
-      'author' => [
-          'authorId' => 145,
-          'authorName' => 'Jules Verne'
-      ],
-      'genre' => [
-          'genreId' => 1,
-          'genreName' => 'Science Fiction'
-      ],
-  ],
-  4 => [
-      'title' => 'The Mysterious Island',
-      'author' => [
-          'authorId' => 145,
-          'authorName' => 'Jules Verne'
-      ],
-      'genre' => [
-          'genreId' => 1,
-          'genreName' => 'Science Fiction'
-      ],
-  ],
-];
+
 
 header('Content-Type: application/json');
+
+$resourceId = array_key_exists('resource_id',$_GET) ? $_GET['resource_id'] : '' ;
 
 // Generating the response asumming that the request is correct
 switch (strtoupper($_SERVER['REQUEST_METHOD']) ) {
   case'GET':
-      echo json_encode($books);
+    switch($resourceType){
+        case 'books':
+            if(empty($resourceId)){
+                echo json_encode($books);
+            }else{
+                if(array_key_exists($resourceId, $books)){
+                    echo json_encode($books[$resourceId]);
+                }
+            }
+        break;
+        case 'authors':
+            if(empty($resourceId)){
+                echo json_encode($authors);
+            }else{
+                if(array_key_exists($resourceId, $authors)){
+                    echo json_encode($authors[$resourceId]);
+                }
+            }
+        break;
+    }
   break;
 
   case'POST':

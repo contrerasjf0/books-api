@@ -2,7 +2,13 @@
 
 require_once('./data.php');
 
+//HTTP Authentication 
+$user = array_key_exists('PHP_AUTH_USER', $_SERVER ) ?  $_SERVER['PHP_AUTH_USER'] : '';
+$pass = array_key_exists('PHP_AUTH_PW', $_SERVER ) ?  $_SERVER['PHP_AUTH_PW'] : '';
 
+if ( $user !== 'mauro' || $pwd !== '1234' ) {
+ die;
+} 
 // Validating the availability of the resource
 $resourceType = $_GET['resource_type'];
 

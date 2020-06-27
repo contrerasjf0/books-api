@@ -63,5 +63,24 @@
         $('#booksTable tr:last').after('<tr><td>' + book.title + '</td><td>' + book.autorId + '</td><td>' + book.generoId + '</td></tr>');
     }
 
+    $('#bookSave').click( function( ) {
+        var newBook = {
+            titulo: $('#bookTitle').val(),
+            autorId: $('#bookAuthorId').val(),
+            generoId: $('#bookGenreId').val(),
+        }
+
+        $('#messages').first('p').text('Guardando libro...');
+        $('#messages').show();
+        $.ajax( {
+            'url': window.location.href + (window.location.href.substr(window.location.href.length - 1) == '/' ? '' : '/' ) + 'books',
+            'method': 'POST',
+            'data': JSON.stringify( newBook ),
+            'success' : function( data ) {
+                $('#messages').hide();
+                addBook( newBook );
+            }
+        } );
+    });
     </script>
 </html>

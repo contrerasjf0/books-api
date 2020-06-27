@@ -5,7 +5,7 @@ require_once('./data.php');
 //Access Tokens Authentication
 
 if ( !array_key_exists( 'HTTP_X_TOKEN', $_SERVER ) ) {
-
+  http_response_code(401);
   die;
 }
 
@@ -33,6 +33,7 @@ $resourceType = $_GET['resource_type'];
 
 // in_array() funcion verifies that an element belongs to the array
 if(! in_array($resourceType, $allowedResourceTypes)){
+  http_response_code(400);
   die;
 }
 
@@ -52,6 +53,8 @@ switch (strtoupper($_SERVER['REQUEST_METHOD']) ) {
             }else{
                 if(array_key_exists($resourceId, $books)){
                     echo json_encode($books[$resourceId]);
+                }else{
+                  http_response_code(400);
                 }
             }
         break;
